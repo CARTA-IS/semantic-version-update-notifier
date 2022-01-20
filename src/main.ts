@@ -9,7 +9,7 @@ const {
   PERSONAL_TOKEN,
 } = process.env;
 
-const [owner, repoName] = GITHUB_REPOSITORY.split('/');
+const [owner, repoName] = (GITHUB_REPOSITORY as string).split('/');
 
 async function run() {
   const octokit = await new Octokit({auth: PERSONAL_TOKEN})
