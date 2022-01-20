@@ -1,6 +1,6 @@
-<p align="center">When the version up, let the team know what to update.</p>
+<p align="center">When the version goes up, it tells each cell that they need to match the version.</p>
 
---
+---
 
 ## Usage
 
