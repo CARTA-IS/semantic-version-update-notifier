@@ -1,23 +1,20 @@
-import { Octokit } from "@octokit/rest";
+import {Octokit} from '@octokit/rest'
 
-const core = require('@actions/core');
-const github = require('@actions/github');
-const semver = require('semver');
+const core = require('@actions/core')
+const github = require('@actions/github')
+const semver = require('semver')
 
-const {
-  GITHUB_REPOSITORY,
-  PERSONAL_TOKEN,
-} = process.env;
+const {GITHUB_REPOSITORY, PERSONAL_TOKEN} = process.env
 
-const [owner, repoName] = (GITHUB_REPOSITORY as string).split('/');
+const [owner, repoName] = (GITHUB_REPOSITORY as string).split('/')
 
 async function run() {
   const octokit = await new Octokit({auth: PERSONAL_TOKEN})
   console.log(`[----${owner}/${repoName}----]`)
-  let releases = await octokit.paginate(
-    octokit.rest.repos.listReleases,
-    {owner: owner, repo: repoName}
-  )
+  let releases = await octokit.paginate(octokit.rest.repos.listReleases, {
+    owner: owner,
+    repo: repoName
+  })
   console.log(`Found ${releases.length} releases`)
   if (releases.length < 2) {
     return
@@ -34,15 +31,15 @@ async function run() {
   const secondLastReleaseMajor = semver.major(secondLastRelease.tag_name)
   const secondLastReleaseMinor = semver.minor(secondLastRelease.tag_name)
 
-  let isMajorUpdated = false;
-  let isMinorUpdated = false;
+  let isMajorUpdated = false
+  let isMinorUpdated = false
   let semanticTarget = ''
-  if (lastReleaseMajor > secondLastReleaseMajor)  {
+  if (lastReleaseMajor > secondLastReleaseMajor) {
     semanticTarget = '주'
-    isMajorUpdated = true;
+    isMajorUpdated = true
   } else if (lastReleaseMinor > secondLastReleaseMinor) {
     semanticTarget = '부'
-    isMinorUpdated = true;
+    isMinorUpdated = true
   } else {
     return
   }
@@ -55,4 +52,4 @@ async function run() {
   core.setOutput('message', message)
 }
 
-run();
+run()
