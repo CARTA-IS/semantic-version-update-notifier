@@ -1,8 +1,6 @@
 import {Octokit} from '@octokit/rest'
-
-const core = require('@actions/core')
-const github = require('@actions/github')
-const semver = require('semver')
+import core from '@actions/core'
+import semver from 'semver'
 
 const {GITHUB_REPOSITORY, PERSONAL_TOKEN} = process.env
 
