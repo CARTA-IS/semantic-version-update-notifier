@@ -1,5 +1,5 @@
+import * as core from '@actions/core'
 import {Octokit} from '@octokit/rest'
-import core from '@actions/core'
 import semver from 'semver'
 
 const {GITHUB_REPOSITORY, PERSONAL_TOKEN} = process.env

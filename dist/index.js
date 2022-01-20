@@ -6,6 +6,25 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -19,27 +38,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
 const rest_1 = __nccwpck_require__(5375);
-const core_1 = __importDefault(__nccwpck_require__(2186));
 const semver_1 = __importDefault(__nccwpck_require__(1383));
 const { GITHUB_REPOSITORY, PERSONAL_TOKEN } = process.env;
 const [owner, repoName] = GITHUB_REPOSITORY.split('/');
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const octokit = new rest_1.Octokit({ auth: PERSONAL_TOKEN });
-        core_1.default.info(`[----${owner}/${repoName}----]`);
+        core.info(`[----${owner}/${repoName}----]`);
         const releases = yield octokit.paginate(octokit.rest.repos.listReleases, {
             owner,
             repo: repoName
         });
-        core_1.default.info(`Found ${releases.length} releases`);
+        core.info(`Found ${releases.length} releases`);
         if (releases.length < 2) {
             return;
         }
         const lastRelease = releases[0];
         const secondLastRelease = releases[1];
-        core_1.default.info(lastRelease.tag_name);
-        core_1.default.info(secondLastRelease.tag_name);
+        core.info(lastRelease.tag_name);
+        core.info(secondLastRelease.tag_name);
         const lastReleaseMajor = semver_1.default.major(lastRelease.tag_name);
         const lastReleaseMinor = semver_1.default.minor(lastRelease.tag_name);
         const secondLastReleaseMajor = semver_1.default.major(secondLastRelease.tag_name);
@@ -58,11 +77,11 @@ function run() {
         else {
             return;
         }
-        core_1.default.info(`isMajorUpdated: ${isMajorUpdated}`);
-        core_1.default.info(`isMinorUpdated: ${isMinorUpdated}`);
+        core.info(`isMajorUpdated: ${isMajorUpdated}`);
+        core.info(`isMinorUpdated: ${isMinorUpdated}`);
         const message = `${repoName} 의 **${semanticTarget}** 버전이 올라갔습니다 (${secondLastRelease.tag_name} -> ${lastRelease.tag_name})`;
-        core_1.default.info(message);
-        core_1.default.setOutput('message', message);
+        core.info(message);
+        core.setOutput('message', message);
     });
 }
 run();
