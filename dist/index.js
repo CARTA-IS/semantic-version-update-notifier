@@ -27,19 +27,19 @@ const [owner, repoName] = GITHUB_REPOSITORY.split('/');
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const octokit = new rest_1.Octokit({ auth: PERSONAL_TOKEN });
-        core_1.default.debug(`[----${owner}/${repoName}----]`);
+        core_1.default.info(`[----${owner}/${repoName}----]`);
         const releases = yield octokit.paginate(octokit.rest.repos.listReleases, {
             owner,
             repo: repoName
         });
-        core_1.default.debug(`Found ${releases.length} releases`);
+        core_1.default.info(`Found ${releases.length} releases`);
         if (releases.length < 2) {
             return;
         }
         const lastRelease = releases[0];
         const secondLastRelease = releases[1];
-        core_1.default.debug(lastRelease.tag_name);
-        core_1.default.debug(secondLastRelease.tag_name);
+        core_1.default.info(lastRelease.tag_name);
+        core_1.default.info(secondLastRelease.tag_name);
         const lastReleaseMajor = semver_1.default.major(lastRelease.tag_name);
         const lastReleaseMinor = semver_1.default.minor(lastRelease.tag_name);
         const secondLastReleaseMajor = semver_1.default.major(secondLastRelease.tag_name);
@@ -58,10 +58,10 @@ function run() {
         else {
             return;
         }
-        core_1.default.debug(`isMajorUpdated: ${isMajorUpdated}`);
-        core_1.default.debug(`isMinorUpdated: ${isMinorUpdated}`);
+        core_1.default.info(`isMajorUpdated: ${isMajorUpdated}`);
+        core_1.default.info(`isMinorUpdated: ${isMinorUpdated}`);
         const message = `${repoName} 의 **${semanticTarget}** 버전이 올라갔습니다 (${secondLastRelease.tag_name} -> ${lastRelease.tag_name})`;
-        core_1.default.debug(message);
+        core_1.default.info(message);
         core_1.default.setOutput('message', message);
     });
 }
