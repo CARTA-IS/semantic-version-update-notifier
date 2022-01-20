@@ -7,7 +7,6 @@ const semver = require('semver');
 const {
   GITHUB_REPOSITORY,
   PERSONAL_TOKEN,
-  GITHUB_REF,
 } = process.env;
 
 const [owner, repoName] = GITHUB_REPOSITORY.split('/');
